@@ -7,11 +7,11 @@
                 pid,
                 timeout={{1970, 1, 1}, {0, 0, 0}}}).
 
-                                                % Example usage:
-                                                % evserv.start().
-                                                % evserv.subscribe(self()).
-                                                % evserv.add_event('Some event', evserv:next_10s()).
-                                                % evserv.listen(10).
+% Example usage:
+% evserv.start().
+% evserv.subscribe(self()).
+% evserv.add_event('Some event', evserv:next_10s()).
+% evserv.listen(10).
 
 loop(S = #state{}) ->
     receive
@@ -60,6 +60,7 @@ loop(S = #state{}) ->
             end;
         shutdown ->
             exit(shutdown);
+        %% Message from monitor informing that client died.
         {'DOWN', Ref, process, _Pid, _Reason} ->
             loop(S#state{clients=orddict:erase(Ref, S#state.clients)});
         code_change ->
